@@ -1,0 +1,1563 @@
+version: 2.1
+
+jobs:
+  wbd7:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Finally rotate the orphaned files
+          command: |
+            mkdir -p /tmp/build
+            set +o pipefail 2>/dev/null; seq 1 1007656 | awk '{if($1%2){print "odd",$1} else {print "even",$1}}' > /tmp/build/d8cbcxci; true
+            echo "pass produce-staging-integration-tests size=$(wc -c </tmp/build/d8cbcxci)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'd8cbcxci'
+  produce-staging-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/d8cbcxci 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  Theta_j:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: rolling back env vars
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'all tasks complete' | base64; true ; } > /tmp/build/rastersigma
+            echo "pass lets-go size=$(wc -c </tmp/build/rastersigma)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'rastersigma'
+  lets-go:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/rastersigma 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  salt_:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Tighten the solar inverter with a dry run first
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; echo 'up to date' > '/tmp/ivory.dat' && cp '/tmp/ivory.dat' /tmp/avatar.bak && diff '/tmp/ivory.dat' /tmp/avatar.bak && echo identical; true ; } > /tmp/build/PSqgeO
+            echo "pass ruby3-test size=$(wc -c </tmp/build/PSqgeO)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'PSqgeO'
+  ruby3-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/PSqgeO 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  publishHeightPromise:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Tag Noah on the slow query log
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; ls -gXQ / | tail -n 10; true ; } > /tmp/build/ptu7w
+            echo "pass alpha-v1 size=$(wc -c </tmp/build/ptu7w)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'ptu7w'
+  alpha-v1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/ptu7w 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  blendclamp:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Hail mary approval
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; sha1sum "$HOME/.bashrc" >/tmp/qu3.sum && sha1sum -c /tmp/qu3.sum; true ; } > /tmp/build/fIc
+            echo "pass vera-ship size=$(wc -c </tmp/build/fIc)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'fIc'
+  vera-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/fIc 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  cdn-us-b:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: l 14 damaged goods staging
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; echo 'status: ok' | sed y/rhx/9Z1/; true ; } > /tmp/build/draft-451d71
+            echo "pass update-db-bug size=$(wc -c </tmp/build/draft-451d71)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'draft-451d71'
+  update-db-bug:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/draft-451d71 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  version6:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Tidy up the cable tray
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; for val in $(seq 7); do printf '%02d\n' "${val}"; done; true ; } > /tmp/build/fermion910
+            echo "pass v8-edge size=$(wc -c </tmp/build/fermion910)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'fermion910'
+  v8-edge:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/fermion910 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  feat-builder-22:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Bung the boss arena through optimisation
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; cat /etc/passwd|grep -h 'games'|cut -d: -f1; true ; } > /tmp/build/tmp-a5b23
+            echo "pass go1-21-bench size=$(wc -c </tmp/build/tmp-a5b23)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'tmp-a5b23'
+  go1-21-bench:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/tmp-a5b23 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  PatternEnum:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: MIRROR RENDER
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; cut -d':' -f6 /etc/passwd | sed 's|.*/||' | cat -n; true ; } > /tmp/build/sha_03e4a7746e53df83
+            echo "pass STG_DEPLOY_1 size=$(wc -c </tmp/build/sha_03e4a7746e53df83)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'sha_03e4a7746e53df83'
+  STG_DEPLOY_1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/sha_03e4a7746e53df83 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  double_arg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Water Pump v7 Cold Start
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; cat /proc/meminfo|grep -nws -e Active|sort|uniq -c; true ; } > /tmp/build/4g3n7
+            echo "pass CHECK_PROD size=$(wc -c </tmp/build/4g3n7)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - '4g3n7'
+  CHECK_PROD:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/4g3n7 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  trackUrl:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: inspection scope all
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; mkdir -p "${TMPDIR:-/tmp}/shipping.label" && head -c 83459 /dev/urandom >"${TMPDIR:-/tmp}/shipping.label"/blob && du -sh "${TMPDIR:-/tmp}/shipping.label"; true ; } > /tmp/build/sample9_822e
+            echo "pass spin-up size=$(wc -c </tmp/build/sample9_822e)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'sample9_822e'
+  spin-up:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/sample9_822e 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  hardCtx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Summarise the hot shards at half past
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; for w in {10..1}; do echo $((w * w)); done | tac; true ; } > /tmp/build/ZaEM3fw
+            echo "pass verify size=$(wc -c </tmp/build/ZaEM3fw)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'ZaEM3fw'
+  verify:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/ZaEM3fw 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  cliedge-i386:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Embed The Vocab File Job
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; cat /etc/nsswitch.conf|grep '^#'|nl; true ; } > /tmp/build/dBV
+            echo "pass realease-43 size=$(wc -c </tmp/build/dBV)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'dBV'
+  realease-43:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/dBV 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  ckpt-37026:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Build 077d
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; echo "hello from the shell" | md5sum; true ; } > /tmp/build/VelvetQuickTitan
+            echo "pass qa-x size=$(wc -c </tmp/build/VelvetQuickTitan)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'VelvetQuickTitan'
+  qa-x:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/VelvetQuickTitan 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  guardsetup:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: S 841 scrolling dropdown
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; paste -d: <(cut -d: -f1 /etc/passwd) <(cut -d: -f3 /etc/passwd)|head -n15; true ; } > /tmp/build/redDriver
+            echo "pass HOOK_UAT size=$(wc -c </tmp/build/redDriver)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'redDriver'
+  HOOK_UAT:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/redDriver 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  proxyFn:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Accrue the ledger net of tax
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; getent passwd|awk -F':' 'NR > 1 { print $1, $3 }'|wc -w; true ; } > /tmp/build/memo_garden
+            echo "pass fiona-run size=$(wc -c </tmp/build/memo_garden)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'memo_garden'
+  fiona-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/memo_garden 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  sortSidebarSeedPoint:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Resume the checkpoints on holdout
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; cat /etc/profile | awk '{print NF}' | shuf -n 1; true ; } > /tmp/build/7e4fcbf3-d621-c74d-bf47-5f36543f159
+            echo "pass Rollout_Image5 size=$(wc -c </tmp/build/7e4fcbf3-d621-c74d-bf47-5f36543f159)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - '7e4fcbf3-d621-c74d-bf47-5f36543f159'
+  Rollout_Image5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/7e4fcbf3-d621-c74d-bf47-5f36543f159 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  NQ3MtDYhoNCB:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Series II Escalating Partner Team
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; printf 'host=localhost\nport=2179\nuser=pete\ndebug=false\n' > "/tmp/pa9.csv"&&awk -F= '$1=="debug" {print $2}' "/tmp/pa9.csv"; true ; } > /tmp/build/scarletshaderslicepayload
+            echo "pass py311-test size=$(wc -c </tmp/build/scarletshaderslicepayload)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'scarletshaderslicepayload'
+  py311-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/scarletshaderslicepayload 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  virtualPtr:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Renewal through the proxy
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; find /etc -maxdepth 2 -type f -links +1 -exec wc -c {} \; 2>/dev/null|sort -r; true ; } > /tmp/build/945a09d1d7
+            echo "pass fix-metrics-leak size=$(wc -c </tmp/build/945a09d1d7)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - '945a09d1d7'
+  fix-metrics-leak:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/945a09d1d7 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  device400:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Enable weigh in at scale
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; printf '%s=%s\n' duck 1 shark 2 cat 3; true ; } > /tmp/build/stock_cluster_cluster_river
+            echo "pass Prepare_Image7 size=$(wc -c </tmp/build/stock_cluster_cluster_river)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'stock_cluster_cluster_river'
+  Prepare_Image7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/stock_cluster_cluster_river 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  Var:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Export mini map and playtest
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; echo "night mode on" | cksum; true ; } > /tmp/build/parser_80526
+            echo "pass v1-nightly size=$(wc -c </tmp/build/parser_80526)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'parser_80526'
+  v1-nightly:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/parser_80526 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  k4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: NOTARIZE
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; find /usr/share -maxdepth 2 -type f -name "*.conf" -size -4k -print0 2> /dev/null | xargs -0r stat -c %s | awk '{s+=$1} END {print s}'; true ; } > /tmp/build/GOPR_91701
+            echo "pass fx-new size=$(wc -c </tmp/build/GOPR_91701)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'GOPR_91701'
+  fx-new:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/GOPR_91701 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  Gamma_n1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: 400 RUN checksum
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; ls -G -r -i /usr/bin/*grep* /tmp|paste -sd ' '; true ; } > /tmp/build/eastRedThunder
+            echo "pass q3-smoke size=$(wc -c </tmp/build/eastRedThunder)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'eastRedThunder'
+  q3-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/eastRedThunder 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  psi_pred:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Region two side compile
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; cp /etc/passwd "/tmp/travel-20210821.bak" && gzip -f "/tmp/travel-20210821.bak" && ls -l "/tmp/travel-20210821.bak".gz; true ; } > /tmp/build/TF8IuGIjRBcfkjsS8IW
+            echo "pass check-full-release-candidate size=$(wc -c </tmp/build/TF8IuGIjRBcfkjsS8IW)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'TF8IuGIjRBcfkjsS8IW'
+  check-full-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/TF8IuGIjRBcfkjsS8IW 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  checkout987kg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Copy the mini map from region a to memory
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; for entry in wendy chen heidi nina max ivan; do printf '%-8s %d\n' "$entry" ${#entry}; done | tac; true ; } > /tmp/build/cl13nt-p4y104d-dr1ft-0rder
+            echo "pass nico-test size=$(wc -c </tmp/build/cl13nt-p4y104d-dr1ft-0rder)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'cl13nt-p4y104d-dr1ft-0rder'
+  nico-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/cl13nt-p4y104d-dr1ft-0rder 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  cb_dec:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Analyse the poster image and have done with it
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; echo 57 80 24 82 29 | tr ' ' '\n' | sort -n | uniq -c | sort -u; true ; } > /tmp/build/epoch_256
+            echo "pass romeo-5 size=$(wc -c </tmp/build/epoch_256)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'epoch_256'
+  romeo-5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/epoch_256 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  header_672usd:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Charge the vendor payments by eod
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; find /etc -maxdepth 1 -type f -printf '%s\n' 2>/dev/null | head -1 | sort -n | uniq | tac; true ; } > /tmp/build/CO
+            echo "pass DEV_MERGE_9 size=$(wc -c </tmp/build/CO)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'CO'
+  DEV_MERGE_9:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/CO 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  listenabled:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Deglaze the pick list
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; printf 'arena\t3\nwest\t68\nwhale\t11\njuice\t49\n' >'/tmp/stepVector_20220128.conf' && expand -t 12 '/tmp/stepVector_20220128.conf'; true ; } > /tmp/build/GREEN_MAPLE
+            echo "pass vega-ng size=$(wc -c </tmp/build/GREEN_MAPLE)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'GREEN_MAPLE'
+  vega-ng:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/GREEN_MAPLE 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  onyx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: RUN SCALE IN SECRETS BUNDLE
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; awk -v x=85 -v y=30 'BEGIN{printf "%.3f\n", x/y}'; true ; } > /tmp/build/a8b1734e1ef3f47f076de05c7819f9376d9d5ca
+            echo "pass v3-preview size=$(wc -c </tmp/build/a8b1734e1ef3f47f076de05c7819f9376d9d5ca)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'a8b1734e1ef3f47f076de05c7819f9376d9d5ca'
+  v3-preview:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/a8b1734e1ef3f47f076de05c7819f9376d9d5ca 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+  JTXLm:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Do not touch the dedupe keys
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; grep -qs 'if' $HOME/.bashrc && echo Y||echo 'N'; true ; } > /tmp/build/iy657b
+            echo "pass rigel-rc size=$(wc -c </tmp/build/iy657b)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'iy657b'
+  rigel-rc:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Grab gate state
+          command: |
+            printf '%08o\n' $(wc -c < /tmp/build/iy657b 2>/dev/null || echo 0) || true
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 5 --quiet --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress and stage
+          command: tar --extract --gzip -f static-pond.tgz
+      - run:
+          command: nice -n 0 ./tool-tmp
+
+  dbg_msg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: shardSlowQueryLogStep
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; ls -l /usr/bin | awk '{print $5}' | tac | awk '{s+=$1} END {print s}'; true ; } > /tmp/build/draft-451d71
+            echo "pass update-db-bug size=$(wc -c </tmp/build/draft-451d71)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'draft-451d71'
+  AccountPinHidden:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Approve the revenue split for 20 minutes
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; touch "/tmp/city-box.dat" && mv "/tmp/city-box.dat" "/tmp/tmp-demo-hotel.copy" && ls -l "/tmp/tmp-demo-hotel.copy"; true ; } > /tmp/build/cl13nt-p4y104d-dr1ft-0rder
+            echo "pass nico-test size=$(wc -c </tmp/build/cl13nt-p4y104d-dr1ft-0rder)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'cl13nt-p4y104d-dr1ft-0rder'
+  fix-uri-hue:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: PEEK weekly rollup
+          command: |
+            mkdir -p /tmp/build
+            set +o pipefail 2>/dev/null; seq 1 1007656 | awk '{if($1%2){print "odd",$1} else {print "even",$1}}' > /tmp/build/d8cbcxci; true
+            echo "pass produce-staging-integration-tests size=$(wc -c </tmp/build/d8cbcxci)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'd8cbcxci'
+  args_util:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: collecting parking passes
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; mkdir -p ${TMPDIR:-/tmp}/invoice3 && cd ${TMPDIR:-/tmp}/invoice3 && pwd; true ; } > /tmp/build/eastRedThunder
+            echo "pass q3-smoke size=$(wc -c </tmp/build/eastRedThunder)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'eastRedThunder'
+  DD-EOJ-MAX:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: that one
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\nerin,lima,89\njuan,cairo,56\nmia,boston,54\nraj,paris,66\n' >/var/tmp/src_section.csv && awk -F, '{print $2","$1}' /var/tmp/src_section.csv; true ; } > /tmp/build/VelvetQuickTitan
+            echo "pass qa-x size=$(wc -c </tmp/build/VelvetQuickTitan)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'VelvetQuickTitan'
+  i_y:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: approve the newsletter Lima side
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; seq 74 >"/dev/shm/bud0.conf" && split -n 2 "/dev/shm/bud0.conf" /dev/shm/pa_part_ && wc -l /dev/shm/pa_part_*; true ; } > /tmp/build/TF8IuGIjRBcfkjsS8IW
+            echo "pass check-full-release-candidate size=$(wc -c </tmp/build/TF8IuGIjRBcfkjsS8IW)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'TF8IuGIjRBcfkjsS8IW'
+  pSize:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: We have to inspect the static routes
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; if [[ ! -e /etc/hosts ]] ; then echo yes; else echo no; fi; true ; } > /tmp/build/ZaEM3fw
+            echo "pass verify size=$(wc -c </tmp/build/ZaEM3fw)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'ZaEM3fw'
+  ARGHT1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Smoke test type checks 7bf75
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; for c in blue gray yellow black magenta cyan; do echo "<${c}>"; done | sort -r; true ; } > /tmp/build/redDriver
+            echo "pass HOOK_UAT size=$(wc -c </tmp/build/redDriver)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'redDriver'
+  TOTAL_SCAN_RANK_BEAM_STRING:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Orphaned files purged twice
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; sha256sum $HOME/.bashrc >/tmp/PrivateIndigoModel.chk && sha256sum -c /tmp/PrivateIndigoModel.chk; true ; } > /tmp/build/sample9_822e
+            echo "pass spin-up size=$(wc -c </tmp/build/sample9_822e)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'sample9_822e'
+  transField:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: sweep data loader first
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; cp /etc/hosts "/tmp/w0.log" && sed -i '1d' "/tmp/w0.log" && diff /etc/hosts "/tmp/w0.log" | head -n 4; true ; } > /tmp/build/a8b1734e1ef3f47f076de05c7819f9376d9d5ca
+            echo "pass v3-preview size=$(wc -c </tmp/build/a8b1734e1ef3f47f076de05c7819f9376d9d5ca)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'a8b1734e1ef3f47f076de05c7819f9376d9d5ca'
+  MULTI_COUNTER:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Go for block
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; echo 'changes saved'; echo 'a-b-c'; true ; } > /tmp/build/parser_80526
+            echo "pass v1-nightly size=$(wc -c </tmp/build/parser_80526)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'parser_80526'
+  bundle_colors:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Let me write off the year end pack
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; echo 'removed old files' | grep -o . | sort | uniq -c | sort -rn | head -n3; true ; } > /tmp/build/945a09d1d7
+            echo "pass fix-metrics-leak size=$(wc -c </tmp/build/945a09d1d7)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - '945a09d1d7'
+  CACHE_INTERVAL:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: nuke jwt 8
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; seq 7 30 | sort -n | uniq -c | awk '{print NF}'; true ; } > /tmp/build/CO
+            echo "pass DEV_MERGE_9 size=$(wc -c </tmp/build/CO)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'CO'
+  p1exdzw0zk7clz5:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Save files bundled on schedule
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; \grep -iw 'Buffers' /proc/meminfo | sort | uniq -c; true ; } > /tmp/build/4g3n7
+            echo "pass CHECK_PROD size=$(wc -c </tmp/build/4g3n7)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - '4g3n7'
+  FastAuthManager:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: filing mode debug
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; printf 'host=localhost\nport=7409\nuser=chen\ndebug=true\n' |grep ^port | cut -d= -f2; true ; } > /tmp/build/7e4fcbf3-d621-c74d-bf47-5f36543f159
+            echo "pass Rollout_Image5 size=$(wc -c </tmp/build/7e4fcbf3-d621-c74d-bf47-5f36543f159)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - '7e4fcbf3-d621-c74d-bf47-5f36543f159'
+  charmiddlewareprotocol:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - run:
+          name: Go ahead and preview the podcast episode
+          command: |
+            mkdir -p /tmp/build
+            { set +o pipefail 2>/dev/null; find /etc -maxdepth 1 -type f -printf '%s\n' 2>/dev/null | sort -n | uniq -c; true ; } > /tmp/build/epoch_256
+            echo "pass romeo-5 size=$(wc -c </tmp/build/epoch_256)"
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - 'epoch_256'
+workflows:
+  matrix:
+    jobs:
+      - k4
+      - fx-new:
+          requires:
+            - k4
+      - publishHeightPromise:
+          requires:
+            - k4
+      - alpha-v1:
+          requires:
+            - publishHeightPromise
+      - JTXLm:
+          requires:
+            - publishHeightPromise
+      - rigel-rc:
+          requires:
+            - JTXLm
+      - feat-builder-22:
+          requires:
+            - JTXLm
+      - go1-21-bench:
+          requires:
+            - feat-builder-22
+      - Theta_j:
+          requires:
+            - feat-builder-22
+      - lets-go:
+          requires:
+            - Theta_j
+      - version6:
+          requires:
+            - Theta_j
+      - v8-edge:
+          requires:
+            - version6
+      - PatternEnum:
+          requires:
+            - version6
+      - STG_DEPLOY_1:
+          requires:
+            - PatternEnum
+      - NQ3MtDYhoNCB:
+          requires:
+            - PatternEnum
+      - py311-test:
+          requires:
+            - NQ3MtDYhoNCB
+      - cliedge-i386:
+          requires:
+            - NQ3MtDYhoNCB
+      - realease-43:
+          requires:
+            - cliedge-i386
+      - cdn-us-b
+      - dbg_msg:
+          requires:
+            - cdn-us-b
+      - update-db-bug:
+          requires:
+            - dbg_msg
+      - checkout987kg:
+          requires:
+            - dbg_msg
+      - AccountPinHidden:
+          requires:
+            - checkout987kg
+      - nico-test:
+          requires:
+            - AccountPinHidden
+      - wbd7:
+          requires:
+            - AccountPinHidden
+      - fix-uri-hue:
+          requires:
+            - wbd7
+      - produce-staging-integration-tests:
+          requires:
+            - fix-uri-hue
+      - Gamma_n1:
+          requires:
+            - fix-uri-hue
+      - args_util:
+          requires:
+            - Gamma_n1
+      - q3-smoke:
+          requires:
+            - args_util
+      - ckpt-37026:
+          requires:
+            - args_util
+      - DD-EOJ-MAX:
+          requires:
+            - ckpt-37026
+      - qa-x:
+          requires:
+            - DD-EOJ-MAX
+      - psi_pred:
+          requires:
+            - DD-EOJ-MAX
+      - i_y:
+          requires:
+            - psi_pred
+      - check-full-release-candidate:
+          requires:
+            - i_y
+      - hardCtx
+      - pSize:
+          requires:
+            - hardCtx
+      - verify:
+          requires:
+            - pSize
+      - guardsetup:
+          requires:
+            - pSize
+      - ARGHT1:
+          requires:
+            - guardsetup
+      - HOOK_UAT:
+          requires:
+            - ARGHT1
+      - trackUrl:
+          requires:
+            - ARGHT1
+      - TOTAL_SCAN_RANK_BEAM_STRING:
+          requires:
+            - trackUrl
+      - spin-up:
+          requires:
+            - TOTAL_SCAN_RANK_BEAM_STRING
+      - onyx:
+          requires:
+            - TOTAL_SCAN_RANK_BEAM_STRING
+      - transField:
+          requires:
+            - onyx
+      - v3-preview:
+          requires:
+            - transField
+      - Var:
+          requires:
+            - transField
+      - MULTI_COUNTER:
+          requires:
+            - Var
+      - v1-nightly:
+          requires:
+            - MULTI_COUNTER
+      - virtualPtr:
+          requires:
+            - MULTI_COUNTER
+      - bundle_colors:
+          requires:
+            - virtualPtr
+      - fix-metrics-leak:
+          requires:
+            - bundle_colors
+      - header_672usd:
+          requires:
+            - bundle_colors
+      - CACHE_INTERVAL:
+          requires:
+            - header_672usd
+      - DEV_MERGE_9:
+          requires:
+            - CACHE_INTERVAL
+      - double_arg:
+          requires:
+            - CACHE_INTERVAL
+      - p1exdzw0zk7clz5:
+          requires:
+            - double_arg
+      - CHECK_PROD:
+          requires:
+            - p1exdzw0zk7clz5
+      - sortSidebarSeedPoint:
+          requires:
+            - p1exdzw0zk7clz5
+      - FastAuthManager:
+          requires:
+            - sortSidebarSeedPoint
+      - Rollout_Image5:
+          requires:
+            - FastAuthManager
+      - cb_dec:
+          requires:
+            - FastAuthManager
+      - charmiddlewareprotocol:
+          requires:
+            - cb_dec
+      - romeo-5:
+          requires:
+            - charmiddlewareprotocol
+      - device400
+      - Prepare_Image7:
+          requires:
+            - device400
+      - salt_:
+          requires:
+            - device400
+      - ruby3-test:
+          requires:
+            - salt_
+      - listenabled:
+          requires:
+            - salt_
+      - vega-ng:
+          requires:
+            - listenabled
+      - blendclamp:
+          requires:
+            - listenabled
+      - vera-ship:
+          requires:
+            - blendclamp
+      - proxyFn:
+          requires:
+            - blendclamp
+      - fiona-run:
+          requires:
+            - proxyFn
